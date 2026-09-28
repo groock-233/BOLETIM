@@ -1,12 +1,108 @@
 <!DOCTYPE html>
-<html lang="PT-BR">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Boletim Digital</title>
+
+    <!-- Arquivo de estilos -->
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
 </head>
+
 <body>
-    
+
+    <header class="cabecalho">
+        <div class="grafite grafite-topo">BOOM!</div>
+
+        <div class="cabecalho-conteudo">
+            <p class="etiqueta">BOLETIM ESCOLAR</p>
+            <h1>Boletim Digital</h1>
+            <p class="subtitulo">8º Ano</p>
+            <p class="estudante">Estudante Exemplo</p>
+        </div>
+
+        <div class="grafite grafite-lateral">WOW!</div>
+    </header>
+
+    <main class="container">
+
+        <!-- Cards de resumo -->
+        <section class="resumo" aria-label="Resumo do boletim">
+
+            <article class="card">
+                <span class="card-icone">★</span>
+                <h2>Média geral</h2>
+                <p id="media-geral">—</p>
+            </article>
+
+            <article class="card">
+                <span class="card-icone">✦</span>
+                <h2>Total de faltas</h2>
+                <p id="total-faltas">—</p>
+            </article>
+
+            <article class="card">
+                <span class="card-icone">✓</span>
+                <h2>Bom desempenho</h2>
+                <p id="bom-desempenho">—</p>
+            </article>
+
+            <article class="card">
+                <span class="card-icone">!</span>
+                <h2>Atenção</h2>
+                <p id="atencao">—</p>
+            </article>
+
+            <article class="card card-frequencia">
+                <span class="card-icone">♥</span>
+                <h2>Frequência</h2>
+                <p id="frequencia">92%</p>
+                <span class="frequencia-texto">Frequência adequada</span>
+            </article>
+
+        </section>
+
+        <!-- Tabela de notas -->
+        <section class="tabela-secao">
+
+            <div class="titulo-secao">
+                <span class="rabisco">✎</span>
+                <div>
+                    <p class="etiqueta">DESEMPENHO</p>
+                    <h2>Notas por disciplina</h2>
+                </div>
+            </div>
+
+            <div class="tabela-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Disciplina</th>
+                            <th>1º Tri</th>
+                            <th>2º Tri</th>
+                            <th>3º Tri</th>
+                            <th>Média</th>
+                            <th>Faltas</th>
+                            <th>Situação</th>
+                        </tr>
+                    </thead>
+
+                    <!-- O JavaScript vai preencher esta parte -->
+                    <tbody id="tabela-boletim"></tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Boletim Digital • Dados fictícios para demonstração</p>
+    </footer>
+
+    <!-- Arquivo JavaScript -->
+    <script src="script.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,355 @@
+/* ========================================
+   CORES PRINCIPAIS
+   ======================================== */
+
+:root {
+    --branco: #fffdf9;
+    --branco-card: #ffffff;
+    --marrom: #5a3825;
+    --marrom-claro: #8a6045;
+    --marrom-suave: #d8c0ad;
+    --creme: #f4eadf;
+    --preto: #29231f;
+    --verde: #47704f;
+    --vermelho: #9b4b3f;
+    --sombra: rgba(60, 35, 20, 0.15);
+}
+
+/* ========================================
+   CONFIGURAÇÕES GERAIS
+   ======================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--branco);
+    color: var(--preto);
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+}
+
+/* ========================================
+   CABEÇALHO
+   ======================================== */
+
+.cabecalho {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--marrom);
+    color: white;
+    padding: 55px 20px 45px;
+    text-align: center;
+}
+
+.cabecalho-conteudo {
+    position: relative;
+    z-index: 2;
+}
+
+.etiqueta {
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    margin-bottom: 8px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.subtitulo {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.estudante {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+/* ========================================
+   DETALHES DE GRAFITE
+   ======================================== */
+
+.grafite {
+    position: absolute;
+    color: var(--marrom-suave);
+    font-size: 2.2rem;
+    font-weight: 900;
+    opacity: 0.35;
+    transform: rotate(-12deg);
+    user-select: none;
+}
+
+.grafite-topo {
+    top: 18px;
+    left: 7%;
+}
+
+.grafite-lateral {
+    right: 8%;
+    bottom: 20px;
+    transform: rotate(10deg);
+}
+
+/* ========================================
+   CONTEÚDO PRINCIPAL
+   ======================================== */
+
+.container {
+    width: min(1200px, 92%);
+    margin: 0 auto;
+    padding: 40px 0 60px;
+}
+
+/* ========================================
+   CARDS DE RESUMO
+   ======================================== */
+
+.resumo {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+    margin-bottom: 50px;
+}
+
+.card {
+    position: relative;
+    background-color: var(--branco-card);
+    border: 2px solid var(--marrom-suave);
+    border-radius: 22px;
+    padding: 24px 18px;
+    min-height: 155px;
+    box-shadow: 0 8px 20px var(--sombra);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-4px) rotate(-1deg);
+    box-shadow: 0 12px 25px var(--sombra);
+}
+
+.card::after {
+    content: "";
+    position: absolute;
+    width: 55px;
+    height: 12px;
+    background-color: var(--marrom);
+    opacity: 0.12;
+    right: -10px;
+    bottom: 18px;
+    transform: rotate(-25deg);
+}
+
+.card-icone {
+    display: block;
+    color: var(--marrom);
+    font-size: 1.7rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card h2 {
+    color: var(--marrom);
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: var(--preto);
+    font-size: 1.7rem;
+    font-weight: 900;
+}
+
+.frequencia-texto {
+    display: block;
+    margin-top: 5px;
+    color: var(--verde);
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* ========================================
+   TÍTULO DA TABELA
+   ======================================== */
+
+.titulo-secao {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.titulo-secao .etiqueta {
+    color: var(--marrom);
+    margin-bottom: 4px;
+}
+
+.titulo-secao h2 {
+    color: var(--marrom);
+    font-size: 1.8rem;
+}
+
+.rabisco {
+    color: var(--marrom);
+    font-size: 2.5rem;
+    transform: rotate(-15deg);
+}
+
+/* ========================================
+   TABELA
+   ======================================== */
+
+.tabela-container {
+    width: 100%;
+    overflow-x: auto;
+    background-color: var(--branco-card);
+    border: 2px solid var(--marrom-suave);
+    border-radius: 20px;
+    box-shadow: 0 8px 20px var(--sombra);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+thead {
+    background-color: var(--marrom);
+    color: white;
+}
+
+th {
+    padding: 16px 12px;
+    font-size: 0.85rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
+th:first-child {
+    text-align: left;
+}
+
+td {
+    padding: 15px 12px;
+    border-bottom: 1px solid var(--creme);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+td:first-child {
+    text-align: left;
+    font-weight: bold;
+    color: var(--marrom);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: var(--creme);
+}
+
+/* ========================================
+   SITUAÇÕES
+   ======================================== */
+
+.situacao-bom {
+    color: var(--verde);
+    font-weight: bold;
+}
+
+.situacao-atencao {
+    color: var(--vermelho);
+    font-weight: bold;
+}
+
+.situacao-indisponivel {
+    color: var(--marrom-claro);
+    font-weight: bold;
+}
+
+/* ========================================
+   RODAPÉ
+   ======================================== */
+
+footer {
+    background-color: var(--marrom);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.8rem;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 1000px) {
+    .resumo {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .cabecalho {
+        padding: 45px 15px 35px;
+    }
+
+    .grafite {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        width: 94%;
+        padding-top: 30px;
+    }
+
+    .resumo {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .card {
+        min-height: 140px;
+        padding: 20px 15px;
+    }
+
+    .card p {
+        font-size: 1.5rem;
+    }
+
+    .titulo-secao h2 {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .resumo {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        min-height: 120px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    .subtitulo {
+        font-size: 1.1rem;
+    }
+}
