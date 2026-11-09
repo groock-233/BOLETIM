@@ -2,7 +2,7 @@
 // CONFIGURAÇÃO FIXA DO ALUNO
 // ========================================
 
-const CONFIG_ALUNO = {
+var CONFIG_ALUNO = CONFIG_ALUNO || {
     turma: "8B",
     numeroChamada: 36,
     apiUrl: "https://boletim-api.profbt.com.br"
@@ -252,6 +252,7 @@ function classeSituacao(situacao) {
 
 function preencherTabela() {
     const tabela = document.getElementById("tabela-boletim");
+    if (!tabela) return;
     tabela.innerHTML = "";
 
     disciplinasAtuais.forEach(disciplina => {
@@ -327,17 +328,15 @@ function preencherResumo() {
         return media !== null && media < 6.0;
     }).length;
 
-    document.getElementById("media-geral").textContent =
-        formatarNota(mediaGeral);
+    const elMediaGeral = document.getElementById("media-geral");
+    const elTotalFaltas = document.getElementById("total-faltas");
+    const elBomDesempenho = document.getElementById("bom-desempenho");
+    const elAtencao = document.getElementById("atencao");
 
-    document.getElementById("total-faltas").textContent =
-        totalFaltas;
-
-    document.getElementById("bom-desempenho").textContent =
-        quantidadeBom;
-
-    document.getElementById("atencao").textContent =
-        quantidadeAtencao;
+    if (elMediaGeral) elMediaGeral.textContent = formatarNota(mediaGeral);
+    if (elTotalFaltas) elTotalFaltas.textContent = totalFaltas;
+    if (elBomDesempenho) elBomDesempenho.textContent = quantidadeBom;
+    if (elAtencao) elAtencao.textContent = quantidadeAtencao;
 }
 
 function atualizarTela() {
@@ -356,64 +355,66 @@ const mensagemLogin = document.getElementById("mensagem-login");
 const secaoLogin = document.getElementById("secao-login");
 const conteudoBoletim = document.getElementById("conteudo-boletim");
 
-formLogin.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const pinDigitado = pinInput.value.trim();
+if (formLogin) {
+    formLogin.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const pinDigitado = pinInput.value.trim();
 
-    if (!pinDigitado) {
-        mensagemLogin.textContent = "Digite o PIN.";
-        return;
-    }
-
-    mensagemLogin.textContent = "Conectando...";
-
-    try {
-        const response = await fetch(`${CONFIG_ALUNO.apiUrl}/api/v1/boletins/abrir`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                turma: CONFIG_ALUNO.turma,
-                numero_chamada: CONFIG_ALUNO.numeroChamada,
-                pin: pinDigitado
-            })
-        });
-
-        if (response.status === 401) {
-            mensagemLogin.textContent = "Turma, chamada ou PIN inválidos.";
+        if (!pinDigitado) {
+            mensagemLogin.textContent = "Digite o PIN.";
             return;
         }
 
-        if (response.status === 429) {
-            mensagemLogin.textContent = "Muitas tentativas. Aguarde um minuto e tente novamente.";
-            return;
-        }
+        mensagemLogin.textContent = "Conectando...";
 
-        if (!response.ok) {
+        try {
+            const response = await fetch(`${CONFIG_ALUNO.apiUrl}/api/v1/boletins/abrir`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    turma: CONFIG_ALUNO.turma,
+                    numero_chamada: CONFIG_ALUNO.numeroChamada,
+                    pin: pinDigitado
+                })
+            });
+
+            if (response.status === 401) {
+                mensagemLogin.textContent = "Turma, chamada ou PIN inválidos.";
+                return;
+            }
+
+            if (response.status === 429) {
+                mensagemLogin.textContent = "Muitas tentativas. Aguarde um minuto e tente novamente.";
+                return;
+            }
+
+            if (!response.ok) {
+                mensagemLogin.textContent = "Não foi possível conectar ao servidor. Tente novamente.";
+                return;
+            }
+
+            const data = await response.json();
+
+            pinSessao = pinDigitado;
+            pinInput.value = "";
+
+            if (data.dados && data.dados.disciplinas && Array.isArray(data.dados.disciplinas)) {
+                disciplinasAtuais = data.dados.disciplinas;
+            } else {
+                disciplinasAtuais = JSON.parse(JSON.stringify(disciplinasPadrao));
+            }
+
+            secaoLogin.style.display = "none";
+            conteudoBoletim.style.display = "block";
+            atualizarTela();
+
+        } catch (error) {
             mensagemLogin.textContent = "Não foi possível conectar ao servidor. Tente novamente.";
-            return;
         }
-
-        const data = await response.json();
-
-        pinSessao = pinDigitado;
-        pinInput.value = "";
-
-        if (data.dados && data.dados.disciplinas && Array.isArray(data.dados.disciplinas)) {
-            disciplinasAtuais = data.dados.disciplinas;
-        } else {
-            disciplinasAtuais = JSON.parse(JSON.stringify(disciplinasPadrao));
-        }
-
-        secaoLogin.style.display = "none";
-        conteudoBoletim.style.display = "block";
-        atualizarTela();
-
-    } catch (error) {
-        mensagemLogin.textContent = "Não foi possível conectar ao servidor. Tente novamente.";
-    }
-});
+    });
+}
 
 
 // ========================================
@@ -427,16 +428,20 @@ const btnSalvar = document.getElementById("btn-salvar");
 const btnCancelar = document.getElementById("btn-cancelar");
 const mensagemEdicao = document.getElementById("mensagem-edicao");
 
-btnAlternarEdicao.addEventListener("click", () => {
-    preencherTabelaEdicao();
-    secaoEdicao.style.display = "block";
-    mensagemEdicao.textContent = "";
-});
+if (btnAlternarEdicao) {
+    btnAlternarEdicao.addEventListener("click", () => {
+        preencherTabelaEdicao();
+        secaoEdicao.style.display = "block";
+        mensagemEdicao.textContent = "";
+    });
+}
 
-btnCancelar.addEventListener("click", () => {
-    secaoEdicao.style.display = "none";
-    mensagemEdicao.textContent = "";
-});
+if (btnCancelar) {
+    btnCancelar.addEventListener("click", () => {
+        secaoEdicao.style.display = "none";
+        mensagemEdicao.textContent = "";
+    });
+}
 
 function valorParaInputNota(valor) {
     if (valor === null || valor === undefined || valor === "") {
@@ -448,6 +453,7 @@ function valorParaInputNota(valor) {
 }
 
 function preencherTabelaEdicao() {
+    if (!tabelaEdicao) return;
     tabelaEdicao.innerHTML = "";
 
     disciplinasAtuais.forEach((disc, index) => {
@@ -508,89 +514,81 @@ function validarFaltaInput(texto) {
     return { valido: true, valor: num };
 }
 
-btnSalvar.addEventListener("click", async () => {
-    mensagemEdicao.textContent = "";
-    const inputs = tabelaEdicao.querySelectorAll("input");
-    let haErros = false;
+if (btnSalvar) {
+    btnSalvar.addEventListener("click", async () => {
+        mensagemEdicao.textContent = "";
+        const inputs = tabelaEdicao.querySelectorAll("input");
+        let haErros = false;
 
-    inputs.forEach(input => input.classList.remove("campo-invalido"));
+        inputs.forEach(input => input.classList.remove("campo-invalido"));
 
-    const novasDisciplinas = JSON.parse(JSON.stringify(disciplinasAtuais));
+        const novasDisciplinas = JSON.parse(JSON.stringify(disciplinasAtuais));
 
-    inputs.forEach(input => {
-        const tipo = input.dataset.tipo;
-        const index = Number(input.dataset.index);
-        const tri = Number(input.dataset.tri);
-        const valorTexto = input.value;
+        inputs.forEach(input => {
+            const tipo = input.dataset.tipo;
+            const index = Number(input.dataset.index);
+            const tri = Number(input.dataset.tri);
+            const valorTexto = input.value;
 
-        if (tipo === "nota") {
-            const res = validarNotaInput(valorTexto);
-            if (!res.valido) {
-                input.classList.add("campo-invalido");
-                haErros = true;
-            } else {
-                if (tri === 1) novasDisciplinas[index].tri1 = res.valor;
-                if (tri === 2) novasDisciplinas[index].tri2 = res.valor;
-                if (tri === 3) novasDisciplinas[index].tri3 = res.valor;
-            }
-        } else if (tipo === "falta") {
-            const res = validarFaltaInput(valorTexto);
-            if (!res.valido) {
-                input.classList.add("campo-invalido");
-                haErros = true;
-            } else {
-                if (!novasDisciplinas[index].faltas) {
-                    novasDisciplinas[index].faltas = [0, 0, 0];
+            if (tipo === "nota") {
+                const res = validarNotaInput(valorTexto);
+                if (!res.valido) {
+                    input.classList.add("campo-invalido");
+                    haErros = true;
+                } else {
+                    if (tri === 1) novasDisciplinas[index].tri1 = res.valor;
+                    if (tri === 2) novasDisciplinas[index].tri2 = res.valor;
+                    if (tri === 3) novasDisciplinas[index].tri3 = res.valor;
                 }
-                novasDisciplinas[index].faltas[tri - 1] = res.valor;
-            }
-        }
-    });
-
-    if (haErros) {
-        mensagemEdicao.textContent = "Verifique os campos destacados em vermelho.";
-        return;
-    }
-
-    mensagemEdicao.textContent = "Salvando...";
-
-    try {
-        const response = await fetch(`${CONFIG_ALUNO.apiUrl}/api/v1/boletins/salvar`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                turma: CONFIG_ALUNO.turma,
-                numero_chamada: CONFIG_ALUNO.numeroChamada,
-                pin: pinSessao,
-                dados: {
-                    disciplinas: novasDisciplinas
+            } else if (tipo === "falta") {
+                const res = validarFaltaInput(valorTexto);
+                if (!res.valido) {
+                    input.classList.add("campo-invalido");
+                    haErros = true;
+                } else {
+                    if (!novasDisciplinas[index].faltas) {
+                        novasDisciplinas[index].faltas = [0, 0, 0];
+                    }
+                    novasDisciplinas[index].faltas[tri - 1] = res.valor;
                 }
-            })
+            }
         });
 
-        if (!response.ok) {
-            mensagemEdicao.textContent = "Não foi possível salvar as alterações. Tente novamente.";
+        if (haErros) {
+            mensagemEdicao.textContent = "Verifique os campos destacados em vermelho.";
             return;
         }
 
-        disciplinasAtuais = novasDisciplinas;
-        atualizarTela();
-        secaoEdicao.style.display = "none";
-        mensagemEdicao.textContent = "Dados salvos com sucesso.";
+        mensagemEdicao.textContent = "Salvando...";
 
-    } catch (error) {
-        mensagemEdicao.textContent = "Não foi possível conectar ao servidor. Tente novamente.";
-    }
-});
-const CONFIG_ALUNO = {
-    turma: "8B",
-    numeroChamada: 36,
-    apiUrl: "https://boletim-api.profbt.com.br"
-};
-const CONFIG_ALUNO = {
-    turma: "8B",
-    numeroChamada: SEU_NUMERO_CORRETO,
-    apiUrl: "https://boletim-api.profbt.com.br"
-};
+        try {
+            const response = await fetch(`${CONFIG_ALUNO.apiUrl}/api/v1/boletins/salvar`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    turma: CONFIG_ALUNO.turma,
+                    numero_chamada: CONFIG_ALUNO.numeroChamada,
+                    pin: pinSessao,
+                    dados: {
+                        disciplinas: novasDisciplinas
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                mensagemEdicao.textContent = "Não foi possível salvar as alterações. Tente novamente.";
+                return;
+            }
+
+            disciplinasAtuais = novasDisciplinas;
+            atualizarTela();
+            secaoEdicao.style.display = "none";
+            mensagemEdicao.textContent = "Dados salvos com sucesso.";
+
+        } catch (error) {
+            mensagemEdicao.textContent = "Não foi possível conectar ao servidor. Tente novamente.";
+        }
+    });
+}
