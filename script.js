@@ -13,7 +13,7 @@ let pinSessao = null;
 let disciplinasAtuais = [];
 
 // ========================================
-// DADOS FICTÍCIOS DO BOLETIM (INICIAIS)
+// DADOS FICTÍCIOS DO BOLETIM (PADRÃO/FALLBACK)
 // ========================================
 
 const disciplinasPadrao = [
@@ -247,7 +247,7 @@ function classeSituacao(situacao) {
 
 
 // ========================================
-// PREENCHIMENTO DA TABELA
+// PREENCHIMENTO DA TABELA PRINCIPAL
 // ========================================
 
 function preencherTabela() {
@@ -375,8 +375,8 @@ if (formLogin) {
                 },
                 body: JSON.stringify({
                     turma: CONFIG_ALUNO.turma,
-                    numero_chamada: CONFIG_ALUNO.numeroChamada,
-                    pin: pinDigitado
+                    numero_chamada: Number(CONFIG_ALUNO.numeroChamada),
+                    pin: String(pinDigitado)
                 })
             });
 
@@ -397,7 +397,7 @@ if (formLogin) {
 
             const data = await response.json();
 
-            pinSessao = pinDigitado;
+            pinSessao = String(pinDigitado);
             pinInput.value = "";
 
             if (data.dados && data.dados.disciplinas && Array.isArray(data.dados.disciplinas)) {
@@ -569,8 +569,8 @@ if (btnSalvar) {
                 },
                 body: JSON.stringify({
                     turma: CONFIG_ALUNO.turma,
-                    numero_chamada: CONFIG_ALUNO.numeroChamada,
-                    pin: pinSessao,
+                    numero_chamada: Number(CONFIG_ALUNO.numeroChamada),
+                    pin: String(pinSessao),
                     dados: {
                         disciplinas: novasDisciplinas
                     }
