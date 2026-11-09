@@ -584,3 +584,8 @@ btnSalvar.addEventListener("click", async () => {
         mensagemEdicao.textContent = "Não foi possível conectar ao servidor. Tente novamente.";
     }
 });
+const CONFIG_ALUNO = {
+    turma: "8B",
+    numeroChamada: 36,
+    apiUrl: "https://boletim-api.profbt.com.br"
+};
