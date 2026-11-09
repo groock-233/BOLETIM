@@ -589,3 +589,8 @@ const CONFIG_ALUNO = {
     numeroChamada: 36,
     apiUrl: "https://boletim-api.profbt.com.br"
 };
+const CONFIG_ALUNO = {
+    turma: "8B",
+    numeroChamada: SEU_NUMERO_CORRETO,
+    apiUrl: "https://boletim-api.profbt.com.br"
+};
