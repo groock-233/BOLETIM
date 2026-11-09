@@ -294,6 +294,117 @@ footer {
 }
 
 /* ========================================
+   ESTILOS NOVOS DA ETAPA 2 (API E LOGIN)
+   ======================================== */
+
+.card-login, .card-edicao {
+    background-color: var(--branco-card);
+    border: 2px solid var(--marrom-suave);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 20px var(--sombra);
+    margin-bottom: 30px;
+}
+
+.card-login {
+    max-width: 450px;
+    margin: 40px auto;
+}
+
+.form-login {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo-grupo label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--marrom);
+}
+
+.campo-grupo input, .tabela-container input {
+    padding: 10px 14px;
+    border: 2px solid var(--marrom-suave);
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.campo-grupo input:focus, .tabela-container input:focus {
+    border-color: var(--marrom);
+}
+
+.tabela-container input {
+    width: 70px;
+    text-align: center;
+    padding: 6px;
+}
+
+.tabela-container input.campo-invalido {
+    border-color: var(--vermelho);
+    background-color: #fde8e8;
+}
+
+.btn-principal, .btn-secundario {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-principal {
+    background-color: var(--marrom);
+    color: white;
+}
+
+.btn-principal:hover {
+    background-color: var(--marrom-claro);
+}
+
+.btn-secundario {
+    background-color: var(--creme);
+    color: var(--marrom);
+    border: 1px solid var(--marrom-suave);
+}
+
+.btn-secundario:hover {
+    background-color: var(--marrom-suave);
+}
+
+.mensagem-status {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    min-height: 20px;
+    color: var(--marrom);
+}
+
+.acoes-boletim {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.edicao-acoes {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+
+/* ========================================
    RESPONSIVIDADE
    ======================================== */
 
